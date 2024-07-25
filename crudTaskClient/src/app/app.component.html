@@ -1,0 +1,76 @@
+<div class="d-flex flex-column mt-4">
+  <div class="card align-self-center w-50">
+    <h4 class="card-header text-center">Lista de Tarefas</h4>
+    <div class="card-body">
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">Código</th>
+            <th scope="col">Nome</th>
+            <th scope="col">Descrição</th>
+            <th scope="col"></th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (tarefa of tarefas; track tarefa) {
+            <tr>
+              <th scope="row">{{ tarefa.codigo }}</th>
+              <td>{{ tarefa.nome }}</td>
+              <td>{{ tarefa.descricao }}</td>
+              <td>
+                @if (tarefa.concluida ==  false) {
+                  <button type="button" class="btn btn-sm btn-primary me-1" (click)="concluirTarefa(tarefa)">
+                    Concluir
+                  </button>
+                }
+                @else {
+                  <span class="me-1">Concluída</span>
+                }
+                <button type="button" class="btn btn-sm btn-danger" (click)="removerTarefa(tarefa)">
+                  Deletar
+                </button>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+    <div class="card-footer text-center">
+      <button type="button" class="btn btn-success" (click)="addNovaTarefa()">
+        Adicionar Nova Tarefa
+      </button>
+    </div>
+  </div>
+
+  @if (mode !==  ModeEnum.NON) {
+    <div class="card align-self-center w-50 mt-4">
+      <h4 class="card-header text-center">Adicionar Tarefa</h4>
+      <div class="card-body">
+        <form [formGroup]="form">
+          <div class="mb-3 row">
+            <label for="nome" class="col-sm-2 col-form-label">Nome</label>
+            <div class="col-sm-10">
+              <input type="text" id="nome" placeholder="Nome" formControlName="nome" class="form-control"
+                [class.is-invalid]="form.controls.nome.invalid && form.controls.nome.touched" />
+              </div>
+            </div>
+            <div class="mb-3 row">
+              <label for="descricao" class="col-sm-2 col-form-label">Descrição</label>
+              <div class="col-sm-10">
+                <input type="text" id="descricao" placeholder="Descrição" formControlName="descricao" class="form-control"
+                  [class.is-invalid]="form.controls.descricao.invalid && form.controls.descricao.touched" />
+                </div>
+              </div>
+            </form>
+          </div>
+          <div class="card-footer d-flex justify-content-end">
+            <button type="button" class="btn btn-sm btn-primary me-1" (click)="savarTarefa()">
+              Enviar
+            </button>
+            <button type="button" class="btn btn-sm btn-warning" (click)="cancelar()">
+              Cancelar
+            </button>
+          </div>
+        </div>
+      }
+    </div>
